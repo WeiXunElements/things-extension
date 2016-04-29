@@ -1,6 +1,6 @@
 {
   "name": "things-extension",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "authors": [
     "Hatio Lab. <heartyoh@hatiolab.com>"
   ],
@@ -19,9 +19,9 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
-    "things-ajax": "ThingsElements/things-ajax#^0.0.13",
-    "things-resource-selector": "ThingsElements/things-resource-selector#^0.0.1",
-    "things-grid": "ThingsElements/things-grid#^0.0.13"
+    "things-ajax": "ThingsElements/things-ajax",
+    "things-resource-selector": "ThingsElements/things-resource-selector",
+    "things-grid": "ThingsElements/things-grid"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
