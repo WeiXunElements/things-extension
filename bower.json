@@ -18,7 +18,10 @@
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0"
+    "polymer": "Polymer/polymer#^1.2.0",
+    "things-ajax": "ThingsElements/things-ajax#^0.0.13",
+    "things-resource-selector": "ThingsElements/things-resource-selector#^0.0.1",
+    "things-grid": "ThingsElements/things-grid#^0.0.13"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
