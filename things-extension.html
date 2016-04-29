@@ -1,0 +1,241 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../things-ajax/things-ajax.html">
+<link rel="import" href="../things-resource-selector/things-resource-selector-behavior.html">
+<link rel="import" href="../things-grid/things-resource-grid.html">
+
+<dom-module id="things-extension">
+
+  <template>
+    <div class="[[layout]]">
+      <things-ajax 
+        id="resource-search"
+        resource-url="[[gridSearchUrl]]"
+        resource-action="index"
+        select-fields="[[searchFields]]"
+        sort-fields="[[sortFields]]"
+        page=1
+        limit=1000
+        last-response="{{extProps}}">
+      </things-ajax>
+
+      <things-resource-grid 
+        id="grid"
+        config="[[gridConfig]]"
+        model="[[gridModel]]" 
+        columns="[[gridColumns]]"
+        data="[[extProps]]"
+        grid-save-action="[[gridSaveUrl]]"
+        buttons="[[buttons]]"
+        enable-toolbar>
+      </things-resource-grid>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'things-extension',
+      
+      properties: {
+
+        /**
+         * resource type
+         */
+        resourceType: {
+          type: String
+        },
+
+        /**
+         * resource id
+         */
+        resourceId: {
+          type: String
+        },
+
+        /**
+         * 그리드 search URL
+         */
+        gridSearchUrl: {
+          type: String,
+          computed: '_computeGridSearchUrl(resourceType,resourceId)',
+        },
+
+        /**
+         * 그리드 save URL
+         */
+        gridSaveUrl: {
+          type: String,
+          readonly: true,
+          value: 'properties/update_multiple.json'
+        },
+
+        /**
+         * 확장 프로퍼티 데이터 
+         */
+        extProps: {
+          type: Array
+        },
+
+        /**
+         * grid search fields
+         */
+        searchFields : {
+          type: String,
+          readonly: true,
+          value: 'id,name,value,on_type,on_id'
+        },
+
+        /**
+         * grid sort fields
+         */
+        sortFields : {
+          type: Array,
+          readonly: true,
+          value: [ {
+            field : 'name',
+            ascending : true
+          } ]
+        },
+
+        /**
+         * grid model
+         */
+        gridModel: {
+          type: Array,
+          readonly: true,
+          value: [ {
+            fieldName : 'id'
+          }, {
+            fieldName : 'on_type'
+          }, {
+            fieldName : 'on_id'
+          }, { 
+            fieldName : 'name' 
+          }, { 
+            fieldName : 'value' 
+          } ]
+        },
+        
+        /**
+         * grid columns
+         */
+        gridColumns: {
+          type: Array,
+          readonly: true,
+          value: [ {
+            fieldName: 'id',
+            width: 0
+          }, {
+            fieldName: 'on_type',
+            width: 0
+          }, {
+            fieldName: 'on_id',
+            width: 0
+          }, {
+            fieldName: 'name',
+            width: 200
+          }, {
+            fieldName: 'value',
+            width: 800
+          } ]
+        },
+
+        /**
+         * 버튼 정보 
+         */
+        buttons: {
+          type: Array,
+          readonly: true,
+          value: [ {
+            id: 'new-btn',
+            text: 'add',
+            icon: 'icons:add'
+          }, {
+            id: 'save-btn',
+            text: 'save',
+            icon: 'icons:save'
+          }, {
+            id: 'delete-btn',
+            text: 'delete',
+            icon: 'icons:delete'
+          }, {
+            id: 'refresh-btn',
+            text: 'refresh',
+            icon: 'icons:refresh'
+          } ]
+        }
+      },
+
+      listeners: {
+        'grid.things-button-new-btn-tap' : 'addRow',
+        'grid.things-button-refresh-btn-tap' : 'loadData',
+        'grid.things-grid-save-success' : 'loadData'
+      },
+
+      /**
+       * Entity Type, Entity Record Id로 Grid Search URL 생성
+       *
+       * @param {String} onType
+       * @param {String} onId
+       * @return {String} grid search url
+       */
+      _computeGridSearchUrl: function(onType, onId) {
+        return ['properties', onType, onId].join('/');
+      },
+
+      /**
+       * add grid row
+       */
+      addRow: function(e) {
+        this.$.grid.dataSet.insertRow(0, { 
+          id: null, name : '', value : '', on_type : this.resourceType, on_id : this.resourceId
+        });
+      },
+
+      /**
+       * load data
+       */      
+      loadData: function() {
+        if(this.gridSearchUrl) {
+          this.$['resource-search'].generateRequest();
+        }
+      },
+
+      /***************************************************************************************
+       *                            Start detail item view interface
+       ***************************************************************************************/
+
+      /**
+       * detail item view를 구성하기 위한 필수 함수 
+       * item view를 구성한다.
+       *
+       * @return {Object} resource 리소스 데이터 (Object) 혹은 리소스 아이디 (Number)
+       */
+      loadDetailData: function(resource) {
+        if(resource) {
+          var rId = (typeof(resource) === 'object') ? resource.id : resource;
+          if(!this.extProps || rId != this.resourceId) {
+            this.resourceId = rId;
+            this.loadData();
+          }
+        }
+      },
+
+      /**
+       * detail item view를 구성하기 위한 필수 함수 
+       * data로 부터 item view의 데이터를 직접 로딩한다. 외부에서 직접 데이터를 설정한다.
+       *
+       * @param {Object} data
+       */
+      loadDetailDataDirectly: function(data) {
+        this.extProps = data;
+      }
+
+      /***************************************************************************************
+       *                            End detail item view interface
+       ***************************************************************************************/
+
+    });
+  </script>
+</dom-module>
