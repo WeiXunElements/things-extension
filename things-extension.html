@@ -5,37 +5,45 @@
 <link rel="import" href="../things-grid/things-resource-grid.html">
 
 <dom-module id="things-extension">
-
   <template>
-    <div class="[[layout]]">
-      <things-ajax 
-        auto
-        id="resource-search"
-        resource-url="[[gridSearchUrl]]"
-        resource-action="index"
-        select-fields="[[searchFields]]"
-        sort-fields="[[sortFields]]"
-        page=1
-        limit=1000
-        last-response="{{extProps}}">
-      </things-ajax>
+    <style>
+      :host {
+        display: block;
+        @apply(--layout-vertical);
+      }
 
-      <things-resource-grid 
-        id="grid"
-        config="[[gridConfig]]"
-        model="[[gridModel]]" 
-        columns="[[gridColumns]]"
-        data="[[extProps]]"
-        grid-save-action="[[gridSaveUrl]]"
-        buttons="[[buttons]]"
-        enable-toolbar>
-      </things-resource-grid>
-    </div>
+      things-resource-grid {
+        @apply(--layout-flex);
+        @apply(--layout-vertical);
+      }
+    </style>
+
+    <things-ajax 
+      auto
+      id="resource-search"
+      resource-url="[[gridSearchUrl]]"
+      resource-action="index"
+      select-fields="[[searchFields]]"
+      sort-fields="[[sortFields]]"
+      page=1
+      limit=1000
+      last-response="{{extProps}}">
+    </things-ajax>
+
+    <things-resource-grid 
+      id="grid"
+      config="[[gridConfig]]"
+      model="[[gridModel]]" 
+      columns="[[gridColumns]]"
+      data="[[extProps]]"
+      grid-save-action="[[gridSaveUrl]]"
+      buttons="[[buttons]]"
+      enable-toolbar>
+    </things-resource-grid>
   </template>
 
   <script>
     Polymer({
-
       is: 'things-extension',
       
       properties: {
