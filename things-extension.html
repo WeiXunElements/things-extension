@@ -132,28 +132,7 @@
         gridColumns: {
           type: Array,
           readonly: true,
-          value: [ {
-            fieldName: 'id',
-            width: 0
-          }, {
-            fieldName: 'on_type',
-            width: 0
-          }, {
-            fieldName: 'on_id',
-            width: 0
-          }, {
-            fieldName: 'name',
-            header: {
-              text: Things.DataGlobal.t('label.name')
-            },
-            width: 200
-          }, {
-            fieldName: 'value',
-            header: {
-              text: Things.DataGlobal.t('label.value')
-            },            
-            width: 800
-          } ]
+          value: []
         },
 
         /**
@@ -186,6 +165,31 @@
         'grid.things-grid-handle-addrow' : 'addRow',
         'grid.refresh-btn-tap' : 'loadData',
         'grid.things-grid-save-success' : 'loadData'
+      },
+
+      attached:function () {
+         this.gridColumns = [ {
+            fieldName: 'id',
+            width: 0
+          }, {
+            fieldName: 'on_type',
+            width: 0
+          }, {
+            fieldName: 'on_id',
+            width: 0
+          }, {
+            fieldName: 'name',
+            header: {
+              text: Things.DataGlobal.t('label.name')
+            },
+            width: 200
+          }, {
+            fieldName: 'value',
+            header: {
+              text: Things.DataGlobal.t('label.value')
+            },            
+            width: 800
+          } ] 
       },
 
       /**
