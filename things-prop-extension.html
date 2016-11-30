@@ -1,14 +1,14 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../things-ajax/things-ajax.html">
-<link rel="import" href="../things-resource-selector/things-resource-selector-behavior.html">
-<link rel="import" href="../things-grid/things-resource-grid.html">
+<link rel="import" href="../../../bower_components/things-ajax/things-ajax.html">
+<link rel="import" href="../../../bower_components/things-resource-selector/things-resource-selector-behavior.html">
+<link rel="import" href="../../../bower_components/things-grid/things-resource-grid.html">
 
 <!--
-  확장 속성 프로퍼티 - 리소스 타입, 리소스 아이디를 바탕으로 한 확장 속성 프로퍼티 
+  확장 속성 타입까지 추가된 프로퍼티 
 -->
 
-<dom-module id="things-extension">
+<dom-module id="things-prop-extension">
   <template>
     <style>
       :host {
@@ -48,12 +48,11 @@
 
   <script>
     Polymer({
-      is: 'things-extension',
+      is: 'things-prop-extension',
       
       properties: {
-
         /**
-         * Resource type
+         * Resource Type
          */
         resourceType: {
           type: String
@@ -70,8 +69,7 @@
          * Property Type
          */
         propType: {
-          type: String,
-          value: null
+          type: String
         },
 
         /**
@@ -79,7 +77,7 @@
          */
         gridSearchUrl: {
           type: String,
-          computed: '_computeGridSearchUrl(resourceType,resourceId)'
+          computed: '_computeGridSearchUrl(resourceType,resourceId,propType)'
         },
 
         /**
@@ -88,11 +86,11 @@
         gridSaveUrl: {
           type: String,
           readonly: true,
-          value: 'properties/update_multiple.json'
+          value: 'properties/update_multiple'
         },
 
         /**
-         * 확장 프로퍼티 데이터 
+         * 확장 속성 데이터 
          */
         extProps: {
           type: Array
@@ -104,7 +102,7 @@
         searchFields : {
           type: String,
           readonly: true,
-          value: 'id,name,value,on_type,on_id,prop_type'
+          value: 'id,on_type,on_id,prop_type,name,description,value'
         },
 
         /**
@@ -192,50 +190,58 @@
       },
 
       listeners: {
-        'grid.things-grid-handle-addrow' : 'addRow',
         'grid.refresh-btn-tap' : 'loadData',
+        'grid.things-grid-handle-addrow' : 'addRow',
         'grid.things-grid-save-success' : 'loadData'
       },
 
       /**
-       * Life Cycle - Attached
+       * Life Cycle
        */
       attached:function () {
-         this.gridColumns = [ {
-            fieldName: 'id', width: 0
-          }, {
-            fieldName: 'on_type', width: 0
-          }, {
-            fieldName: 'on_id', width: 0
-          }, {
-            fieldName: 'prop_type', width: 0
-          }, {
-            fieldName: 'name', width: 250,
-            header: {
-              text: Things.DataGlobal.t('label.name')
-            }
-          }, {
-            fieldName: 'description', width: 250,
-            header: {
-              text: Things.DataGlobal.t('label.description')
-            }
-          }, {
-            fieldName: 'value', width: 350,
-            header: {
-              text: Things.DataGlobal.t('label.value')
-            }
-          } ] 
+        this.gridColumns = [ {
+          fieldName: 'id',
+          width: 0
+        }, {
+          fieldName: 'on_type',
+          width: 0
+        }, {
+          fieldName: 'on_id',
+          width: 0
+        }, {
+          fieldName: 'prop_type',
+          width: 0
+        }, {
+          fieldName: 'name',
+          width: 300,
+          header: {
+            text: Things.DataGlobal.t('label.name')
+          }
+        }, {
+          fieldName: 'description',
+          width: 300,
+          header: {
+            text: Things.DataGlobal.t('label.description')
+          }
+        }, {
+          fieldName: 'value',
+          width: 350,
+          header: {
+            text: Things.DataGlobal.t('label.value')
+          }
+        } ];
       },
 
       /**
-       * Entity Type, Entity Record Id로 Grid Search URL 생성
+       * Resource Type, Resource Id, Property Type으로 Grid Save URL 생성
        *
-       * @param {String} onType
-       * @param {String} onId
+       * @param {String} resourceType
+       * @param {String} resourceId
+       * @param {String} propType
        * @return {String} grid search url
        */
-      _computeGridSearchUrl: function(onType, onId) {
-        return ['properties', onType, onId].join('/');
+      _computeGridSearchUrl: function(resourceType, resourceId, propType) {
+        return ['properties', resourceType, resourceId, propType].join('/');
       },
 
       /**
@@ -246,11 +252,11 @@
         this.$.grid.dataSet.insertRow(0, { 
           id: null, 
           on_type: this.resourceType, 
-          on_id: this.resourceId, 
-          prop_type: this.propType, 
-          name: '', 
+          on_id : this.resourceId, 
+          prop_type : this.propType, 
+          name : '', 
           description: '', 
-          value: ''
+          value : '' 
         });
       },
 
