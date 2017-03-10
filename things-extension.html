@@ -27,11 +27,12 @@
       id="resource-search"
       resource-url="[[gridSearchUrl]]"
       resource-action="index"
+      query-fields="[[queryFields]]"
       select-fields="[[searchFields]]"
       sort-fields="[[sortFields]]"
       page=1
       limit=1000
-      last-response="{{extProps}}">
+      last-response="{{propDataSet}}">
     </things-ajax>
 
     <things-resource-grid 
@@ -51,7 +52,6 @@
       is: 'things-extension',
       
       properties: {
-
         /**
          * Resource type
          */
@@ -67,6 +67,15 @@
         },
 
         /**
+         * 프로퍼티 타입을 사용할 지 여부 
+         */
+        usePropType: {
+          type: Boolean,
+          value: false,
+          observer: '_usePropTypeChanged'
+        },
+
+        /**
          * Property Type
          */
         propType: {
@@ -75,7 +84,7 @@
         },
 
         /**
-         * 그리드 search URL
+         * 그리드 검색 URL
          */
         gridSearchUrl: {
           type: String,
@@ -83,12 +92,20 @@
         },
 
         /**
-         * 그리드 save URL
+         * 그리드 저장 URL
          */
         gridSaveUrl: {
           type: String,
           readonly: true,
           value: 'properties/update_multiple.json'
+        },
+
+        /**
+         * 확장 프로퍼티 데이터 셋 
+         */
+        propDataSet: {
+          type: Object,
+          observer: '_propDataSetChanged'
         },
 
         /**
@@ -99,20 +116,25 @@
         },
 
         /**
-         * grid search fields
+         * 확장 프로퍼티 쿼리 필드  
          */
-        searchFields : {
-          type: String,
-          readonly: true,
-          value: 'id,name,value,on_type,on_id,prop_type'
+        queryFields: {
+          type: Array
         },
 
         /**
-         * grid sort fields
+         * 그리드 검색 필드 
+         */
+        searchFields : {
+          type: String,
+          value: 'id,name,value,on_type,on_id,prop_type,description'
+        },
+
+        /**
+         * 그리드 소트 필드
          */
         sortFields : {
           type: Array,
-          readonly: true,
           value: [ {
             field : 'name',
             ascending : true
@@ -120,7 +142,7 @@
         },
 
         /**
-         * grid config
+         * 그리드 Configuration
          */
         gridConfig: {
           type: Object,
@@ -134,7 +156,7 @@
         },
 
         /**
-         * grid model
+         * 그리드 모델 정보 
          */
         gridModel: {
           type: Array,
@@ -157,7 +179,7 @@
         },
         
         /**
-         * grid columns
+         * 그리드 컬럼 설정 정보 
          */
         gridColumns: {
           type: Array,
@@ -170,7 +192,6 @@
          */
         buttons: {
           type: Array,
-          readonly: true,
           value: [ {
             id: 'add-btn',
             text: 'add',
@@ -200,31 +221,47 @@
       /**
        * Life Cycle - Attached
        */
-      attached:function () {
-         this.gridColumns = [ {
-            fieldName: 'id', width: 0
-          }, {
-            fieldName: 'on_type', width: 0
-          }, {
-            fieldName: 'on_id', width: 0
-          }, {
-            fieldName: 'prop_type', width: 0
-          }, {
-            fieldName: 'name', width: 250,
-            header: {
-              text: Things.DataGlobal.t('label.name')
-            }
-          }, {
-            fieldName: 'description', width: 250,
-            header: {
-              text: Things.DataGlobal.t('label.description')
-            }
-          }, {
-            fieldName: 'value', width: 350,
-            header: {
-              text: Things.DataGlobal.t('label.value')
-            }
-          } ] 
+      attached: function() {
+        var propTypeWidth = this.usePropType ? 150 : 0;
+
+        this.gridColumns = [ {
+          fieldName: 'id', width: 0
+        }, {
+          fieldName: 'on_type', width: 0
+        }, {
+          fieldName: 'on_id', width: 0
+        }, {
+          fieldName: 'prop_type', width: propTypeWidth,
+          header: {
+            text: Things.DataGlobal.t('label.type')
+          }
+        }, {
+          fieldName: 'name', width: 250,
+          header: {
+            text: Things.DataGlobal.t('label.name')
+          }
+        }, {
+          fieldName: 'description', width: 250,
+          header: {
+            text: Things.DataGlobal.t('label.description')
+          }
+        }, {
+          fieldName: 'value', width: 350,
+          header: {
+            text: Things.DataGlobal.t('label.value')
+          }
+        } ];
+      },
+
+      /**
+       * PropType을 사용할 지 여부 
+       *
+       * @param {Boolean} usePropType
+       */
+      _usePropTypeChanged: function(usePropType) {
+        if(this.gridColumns) {
+          this.gridColumns[3].width = 150;
+        }
       },
 
       /**
@@ -232,30 +269,46 @@
        *
        * @param {String} onType
        * @param {String} onId
-       * @return {String} grid search url
        */
       _computeGridSearchUrl: function(onType, onId) {
-        return ['properties', onType, onId].join('/');
+        this.queryFields = [{
+          name: 'on_type', operator: 'eq', value: onType
+        }, {
+          name: 'on_id', operator: 'eq', value: '' + onId
+        }];
+
+        return 'properties';
       },
 
       /**
-       * add grid row
+       * 프로퍼티 데이터 셋이 변경된 이후 그리드 데이터 바인딩에 extProps에 설정 
+       *
+       * @param {Object} propDataSet
+       */
+      _propDataSetChanged: function(propDataSet) {
+        this.extProps = propDataSet && propDataSet.items ? propDataSet.items : [];
+      },
+
+      /**
+       * 그리드 행 추가 
+       *
+       * @param {Object} e
        */
       addRow: function(e) {
         event.preventDefault();
-        this.$.grid.dataSet.insertRow(0, { 
-          id: null, 
-          on_type: this.resourceType, 
-          on_id: this.resourceId, 
-          prop_type: this.propType, 
-          name: '', 
-          description: '', 
+        this.$.grid.dataSet.insertRow(0, {
+          id: null,
+          on_type: this.resourceType,
+          on_id: this.resourceId,
+          prop_type: this.propType,
+          name: '',
+          description: '',
           value: ''
         });
       },
 
       /**
-       * load data
+       * 확장 속성 데이터 조회 
        */      
       loadData: function() {
         this.$['resource-search'].generateRequest();
