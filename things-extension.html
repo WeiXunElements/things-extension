@@ -5,7 +5,7 @@
 <link rel="import" href="../things-grid/things-resource-grid.html">
 
 <!--
-  확장 속성 프로퍼티 - 리소스 타입, 리소스 아이디를 바탕으로 한 확장 속성 프로퍼티 
+  확장 속성 프로퍼티 - 리소스 타입, 리소스 아이디를 바탕으로 한 확장 속성 프로퍼티
 -->
 
 <dom-module id="things-extension">
@@ -22,7 +22,7 @@
       }
     </style>
 
-    <things-ajax 
+    <things-ajax
       auto
       id="resource-search"
       resource-url="[[gridSearchUrl]]"
@@ -35,10 +35,10 @@
       last-response="{{propDataSet}}">
     </things-ajax>
 
-    <things-resource-grid 
+    <things-resource-grid
       id="grid"
       config="[[gridConfig]]"
-      model="[[gridModel]]" 
+      model="[[gridModel]]"
       columns="[[gridColumns]]"
       data="[[extProps]]"
       grid-save-action="[[gridSaveUrl]]"
@@ -50,10 +50,12 @@
   <script>
     Polymer({
       is: 'things-extension',
-      
+
       properties: {
         /**
          * Resource type
+         * ******
+         * @type {String}
          */
         resourceType: {
           type: String
@@ -61,13 +63,17 @@
 
         /**
          * Resource Id
+         * ******
+         * @type {String}
          */
         resourceId: {
           type: String
         },
 
         /**
-         * 프로퍼티 타입을 사용할 지 여부 
+         * 프로퍼티 타입을 사용할 지 여부
+         * ******
+         * @type {Boolean}
          */
         usePropType: {
           type: Boolean,
@@ -77,6 +83,8 @@
 
         /**
          * Property Type
+         * ******
+         * @type {String}
          */
         propType: {
           type: String,
@@ -85,6 +93,8 @@
 
         /**
          * 그리드 검색 URL
+         * ******
+         * @type {String}
          */
         gridSearchUrl: {
           type: String,
@@ -93,6 +103,8 @@
 
         /**
          * 그리드 저장 URL
+         * ******
+         * @type {String}
          */
         gridSaveUrl: {
           type: String,
@@ -101,7 +113,9 @@
         },
 
         /**
-         * 확장 프로퍼티 데이터 셋 
+         * 확장 프로퍼티 데이터 셋
+         * ******
+         * @type {Object}
          */
         propDataSet: {
           type: Object,
@@ -109,21 +123,27 @@
         },
 
         /**
-         * 확장 프로퍼티 데이터 
+         * 확장 프로퍼티 데이터
+         * ******
+         * @type {Array}
          */
         extProps: {
           type: Array
         },
 
         /**
-         * 확장 프로퍼티 쿼리 필드  
+         * 확장 프로퍼티 쿼리 필드
+         * ******
+         * @type {Array}
          */
         queryFields: {
           type: Array
         },
 
         /**
-         * 그리드 검색 필드 
+         * 그리드 검색 필드
+         * ******
+         * @type {String}
          */
         searchFields : {
           type: String,
@@ -132,6 +152,8 @@
 
         /**
          * 그리드 소트 필드
+         * ******
+         * @type {Array}
          */
         sortFields : {
           type: Array,
@@ -143,6 +165,8 @@
 
         /**
          * 그리드 Configuration
+         * ******
+         * @type {Object}
          */
         gridConfig: {
           type: Object,
@@ -156,7 +180,9 @@
         },
 
         /**
-         * 그리드 모델 정보 
+         * 그리드 모델 정보
+         * ******
+         * @type {Array}
          */
         gridModel: {
           type: Array,
@@ -169,17 +195,19 @@
             fieldName : 'on_id'
           }, {
             fieldName : 'prop_type'
-          }, { 
-            fieldName : 'name' 
-          }, { 
-            fieldName : 'description' 
-          }, { 
-            fieldName : 'value' 
+          }, {
+            fieldName : 'name'
+          }, {
+            fieldName : 'description'
+          }, {
+            fieldName : 'value'
           } ]
         },
-        
+
         /**
-         * 그리드 컬럼 설정 정보 
+         * 그리드 컬럼 설정 정보
+         * ******
+         * @type {Array}
          */
         gridColumns: {
           type: Array,
@@ -188,7 +216,9 @@
         },
 
         /**
-         * 버튼 정보 
+         * 버튼 정보
+         * ******
+         * @type {Array}
          */
         buttons: {
           type: Array,
@@ -220,6 +250,7 @@
 
       /**
        * Life Cycle - Attached
+       * *******
        */
       attached: function() {
         var propTypeWidth = this.usePropType ? 150 : 0;
@@ -254,7 +285,7 @@
       },
 
       /**
-       * PropType을 사용할 지 여부 
+       * PropType을 사용할 지 여부
        *
        * @param {Boolean} usePropType
        */
@@ -281,7 +312,7 @@
       },
 
       /**
-       * 프로퍼티 데이터 셋이 변경된 이후 그리드 데이터 바인딩에 extProps에 설정 
+       * 프로퍼티 데이터 셋이 변경된 이후 그리드 데이터 바인딩에 extProps에 설정
        *
        * @param {Object} propDataSet
        */
@@ -290,8 +321,8 @@
       },
 
       /**
-       * 그리드 행 추가 
-       *
+       * 그리드 행 추가
+       ********
        * @param {Object} e
        */
       addRow: function(e) {
@@ -308,8 +339,9 @@
       },
 
       /**
-       * 확장 속성 데이터 조회 
-       */      
+       * 확장 속성 데이터 조회
+       * *******
+       */
       loadData: function() {
         this.$['resource-search'].generateRequest();
       }
