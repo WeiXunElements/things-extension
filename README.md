@@ -1,6 +1,6 @@
 # things-extension
 
-## 리소스 타입, 리소스 아이디를 바탕으로 한 확장 속성 프로퍼티를 입력받고 보여주는 컴포넌트
+## Resource type. This is a component that receives and displays extended attributes based on the resource ID.
 
 ```html
 <things-extension
@@ -11,7 +11,9 @@
 </things-extension>
 ```
 # things-prop-extension
-## 리소스 타입, 리소스 아이디를 바탕으로 확장속성 타입까지 설정할 수 있는 확장속성 프로퍼티를 입력받고 보여주는  컴포넌트
+
+## Resource type. This is a component that receives and displays extended attributes that can set up the extended attribute type based on the resource ID.
+
 ```html
 <things-prop-extension
   id="alarm-params"
@@ -23,8 +25,7 @@
 
 ## Dependencies
 
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
+Element dependencies are managed via [Bower](http://bower.io/). You can install that via:
 
     npm install -g bower
 
@@ -45,4 +46,4 @@ And you can run it via:
     polymer serve
 
 Once running, you can preview your element at
-`http://localhost:8080/components/things-alarm/`, where `things-alarm` is the name of the directory containing it.
+`http://localhost:8080/components/things-extension/`, where `things-extension` is the name of the directory containing it.
