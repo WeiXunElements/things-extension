@@ -1,12 +1,12 @@
 <!--
 @license
-Copyright © HatioLab Inc. All rights reserved.
+Copyright © 2015-2021 Shenzhen Weixun All rights reserved.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html" />
 
-<link rel="import" href="../things-ajax/things-ajax.html">
-<link rel="import" href="../things-resource-selector/things-resource-selector-behavior.html">
-<link rel="import" href="../things-grid/things-resource-grid.html">
+<link rel="import" href="../things-ajax/things-ajax.html" />
+<link rel="import" href="../things-resource-selector/things-resource-selector-behavior.html" />
+<link rel="import" href="../things-grid/things-resource-grid.html" />
 
 <!--
   확장 속성 타입까지 추가된 프로퍼티
@@ -17,12 +17,12 @@ Copyright © HatioLab Inc. All rights reserved.
     <style>
       :host {
         display: block;
-        @apply(--layout-vertical);
+        @apply (--layout-vertical);
       }
 
       things-resource-grid {
-        @apply(--layout-flex);
-        @apply(--layout-vertical);
+        @apply (--layout-flex);
+        @apply (--layout-vertical);
       }
     </style>
 
@@ -33,9 +33,10 @@ Copyright © HatioLab Inc. All rights reserved.
       resource-action="index"
       select-fields="[[searchFields]]"
       sort-fields="[[sortFields]]"
-      page=1
-      limit=1000
-      last-response="{{extProps}}">
+      page="1"
+      limit="1000"
+      last-response="{{extProps}}"
+    >
     </things-ajax>
 
     <things-resource-grid
@@ -46,7 +47,8 @@ Copyright © HatioLab Inc. All rights reserved.
       data="[[extProps]]"
       grid-save-action="[[gridSaveUrl]]"
       buttons="[[buttons]]"
-      enable-toolbar>
+      enable-toolbar
+    >
     </things-resource-grid>
   </template>
 
@@ -61,7 +63,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {String}
          */
         resourceType: {
-          type: String
+          type: String,
         },
 
         /**
@@ -70,7 +72,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {String}
          */
         resourceId: {
-          type: String
+          type: String,
         },
 
         /**
@@ -79,7 +81,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {String}
          */
         propType: {
-          type: String
+          type: String,
         },
 
         /**
@@ -89,7 +91,7 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         gridSearchUrl: {
           type: String,
-          computed: '_computeGridSearchUrl(resourceType,resourceId,propType)'
+          computed: '_computeGridSearchUrl(resourceType,resourceId,propType)',
         },
 
         /**
@@ -100,7 +102,7 @@ Copyright © HatioLab Inc. All rights reserved.
         gridSaveUrl: {
           type: String,
           readonly: true,
-          value: 'properties/update_multiple'
+          value: 'properties/update_multiple',
         },
 
         /**
@@ -109,7 +111,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {Array}
          */
         extProps: {
-          type: Array
+          type: Array,
         },
 
         /**
@@ -117,10 +119,10 @@ Copyright © HatioLab Inc. All rights reserved.
          * ******
          * @type {String}
          */
-        searchFields : {
+        searchFields: {
           type: String,
           readonly: true,
-          value: 'id,on_type,on_id,prop_type,name,description,value'
+          value: 'id,on_type,on_id,prop_type,name,description,value',
         },
 
         /**
@@ -128,13 +130,15 @@ Copyright © HatioLab Inc. All rights reserved.
          * ******
          * @type {Array}
          */
-        sortFields : {
+        sortFields: {
           type: Array,
           readonly: true,
-          value: [ {
-            field : 'name',
-            ascending : true
-          } ]
+          value: [
+            {
+              field: 'name',
+              ascending: true,
+            },
+          ],
         },
 
         /**
@@ -144,13 +148,13 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         gridConfig: {
           type: Object,
-          value: function() {
+          value: function () {
             return {
-              displayOptions : {
-                fitStyle : DataLudi.GridFitStyle.EVEN_FILL
-              }
-            }
-          }
+              displayOptions: {
+                fitStyle: DataLudi.GridFitStyle.EVEN_FILL,
+              },
+            };
+          },
         },
 
         /**
@@ -161,21 +165,29 @@ Copyright © HatioLab Inc. All rights reserved.
         gridModel: {
           type: Array,
           readonly: true,
-          value: [ {
-            fieldName : 'id'
-          }, {
-            fieldName : 'on_type'
-          }, {
-            fieldName : 'on_id'
-          }, {
-            fieldName : 'prop_type'
-          }, {
-            fieldName : 'name'
-          }, {
-            fieldName : 'description'
-          }, {
-            fieldName : 'value'
-          } ]
+          value: [
+            {
+              fieldName: 'id',
+            },
+            {
+              fieldName: 'on_type',
+            },
+            {
+              fieldName: 'on_id',
+            },
+            {
+              fieldName: 'prop_type',
+            },
+            {
+              fieldName: 'name',
+            },
+            {
+              fieldName: 'description',
+            },
+            {
+              fieldName: 'value',
+            },
+          ],
         },
 
         /**
@@ -186,7 +198,7 @@ Copyright © HatioLab Inc. All rights reserved.
         gridColumns: {
           type: Array,
           readonly: true,
-          value: []
+          value: [],
         },
 
         /**
@@ -197,68 +209,81 @@ Copyright © HatioLab Inc. All rights reserved.
         buttons: {
           type: Array,
           readonly: true,
-          value: [ {
-            id: 'add-btn',
-            text: 'add',
-            icon: 'icons:add'
-          }, {
-            id: 'save-btn',
-            text: 'save',
-            icon: 'icons:save'
-          }, {
-            id: 'delete-btn',
-            text: 'delete',
-            icon: 'icons:delete'
-          }, {
-            id: 'refresh-btn',
-            text: 'refresh',
-            icon: 'icons:refresh'
-          } ]
-        }
+          value: [
+            {
+              id: 'add-btn',
+              text: 'add',
+              icon: 'icons:add',
+            },
+            {
+              id: 'save-btn',
+              text: 'save',
+              icon: 'icons:save',
+            },
+            {
+              id: 'delete-btn',
+              text: 'delete',
+              icon: 'icons:delete',
+            },
+            {
+              id: 'refresh-btn',
+              text: 'refresh',
+              icon: 'icons:refresh',
+            },
+          ],
+        },
       },
 
       listeners: {
-        'grid.refresh-btn-tap' : 'loadData',
-        'grid.things-grid-handle-addrow' : 'addRow',
-        'grid.things-grid-save-success' : 'loadData'
+        'grid.refresh-btn-tap': 'loadData',
+        'grid.things-grid-handle-addrow': 'addRow',
+        'grid.things-grid-save-success': 'loadData',
       },
 
       /**
        * Life Cycle
        * ******
        */
-      attached:function () {
-        this.gridColumns = [ {
-          fieldName: 'id',
-          width: 0
-        }, {
-          fieldName: 'on_type',
-          width: 0
-        }, {
-          fieldName: 'on_id',
-          width: 0
-        }, {
-          fieldName: 'prop_type',
-          width: 0
-        }, {
-          fieldName: 'name',
-          width: 300,
-          header: {
-            text: Things.DataGlobal.t('label.name')
-          }
-        }, {
-          fieldName: 'description',
-          width: 300,
-          header: {
-            text: Things.DataGlobal.t('label.description')
-          }
-        }, {
-          fieldName: 'value',
-          width: 350,
-          header: {
-            text: Things.DataGlobal.t('label.value')
-          }
-        } ];
+      attached: function () {
+        this.gridColumns = [
+          {
+            fieldName: 'id',
+            width: 0,
+          },
+          {
+            fieldName: 'on_type',
+            width: 0,
+          },
+          {
+            fieldName: 'on_id',
+            width: 0,
+          },
+          {
+            fieldName: 'prop_type',
+            width: 0,
+          },
+          {
+            fieldName: 'name',
+            width: 300,
+            header: {
+              text: Things.DataGlobal.t('label.name'),
+            },
+          },
+          {
+            fieldName: 'description',
+            width: 300,
+            header: {
+              text: Things.DataGlobal.t('label.description'),
+            },
+          },
+          {
+            fieldName: 'value',
+            width: 350,
+            header: {
+              text: Things.DataGlobal.t('label.value'),
+            },
+          },
+        ];
       },
 
       /**
@@ -269,7 +294,7 @@ Copyright © HatioLab Inc. All rights reserved.
        * @param {String} propType
        * @return {String} grid search url
        */
-      _computeGridSearchUrl: function(resourceType, resourceId, propType) {
+      _computeGridSearchUrl: function (resourceType, resourceId, propType) {
         return ['properties', resourceType, resourceId, propType].join('/');
       },
 
@@ -277,16 +302,16 @@ Copyright © HatioLab Inc. All rights reserved.
        * add grid row
        * *******
        */
-      addRow: function(e) {
+      addRow: function (e) {
         event.preventDefault();
         this.$.grid.dataSet.insertRow(0, {
           id: null,
           on_type: this.resourceType,
-          on_id : this.resourceId,
-          prop_type : this.propType,
-          name : '',
+          on_id: this.resourceId,
+          prop_type: this.propType,
+          name: '',
           description: '',
-          value : ''
+          value: '',
         });
       },
 
@@ -294,9 +319,9 @@ Copyright © HatioLab Inc. All rights reserved.
        * load data
        * ********
        */
-      loadData: function() {
+      loadData: function () {
         this.$['resource-search'].generateRequest();
-      }
+      },
     });
   </script>
 </dom-module>

@@ -1,12 +1,12 @@
 <!--
 @license
-Copyright © HatioLab Inc. All rights reserved.
+Copyright © 2015-2021 Shenzhen Weixun All rights reserved.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer.html" />
 
-<link rel="import" href="../things-ajax/things-ajax.html">
-<link rel="import" href="../things-resource-selector/things-resource-selector-behavior.html">
-<link rel="import" href="../things-grid/things-resource-grid.html">
+<link rel="import" href="../things-ajax/things-ajax.html" />
+<link rel="import" href="../things-resource-selector/things-resource-selector-behavior.html" />
+<link rel="import" href="../things-grid/things-resource-grid.html" />
 
 <!--
   확장 속성 프로퍼티 - 리소스 타입, 리소스 아이디를 바탕으로 한 확장 속성 프로퍼티
@@ -17,12 +17,12 @@ Copyright © HatioLab Inc. All rights reserved.
     <style>
       :host {
         display: block;
-        @apply(--layout-vertical);
+        @apply (--layout-vertical);
       }
 
       things-resource-grid {
-        @apply(--layout-flex);
-        @apply(--layout-vertical);
+        @apply (--layout-flex);
+        @apply (--layout-vertical);
       }
     </style>
 
@@ -34,9 +34,10 @@ Copyright © HatioLab Inc. All rights reserved.
       query-fields="[[queryFields]]"
       select-fields="[[searchFields]]"
       sort-fields="[[sortFields]]"
-      page=1
-      limit=1000
-      last-response="{{propDataSet}}">
+      page="1"
+      limit="1000"
+      last-response="{{propDataSet}}"
+    >
     </things-ajax>
 
     <things-resource-grid
@@ -47,7 +48,8 @@ Copyright © HatioLab Inc. All rights reserved.
       data="[[extProps]]"
       grid-save-action="[[gridSaveUrl]]"
       buttons="[[buttons]]"
-      enable-toolbar>
+      enable-toolbar
+    >
     </things-resource-grid>
   </template>
 
@@ -62,7 +64,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {String}
          */
         resourceType: {
-          type: String
+          type: String,
         },
 
         /**
@@ -71,7 +73,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {String}
          */
         resourceId: {
-          type: String
+          type: String,
         },
 
         /**
@@ -82,7 +84,7 @@ Copyright © HatioLab Inc. All rights reserved.
         usePropType: {
           type: Boolean,
           value: false,
-          observer: '_usePropTypeChanged'
+          observer: '_usePropTypeChanged',
         },
 
         /**
@@ -92,7 +94,7 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         propType: {
           type: String,
-          value: null
+          value: null,
         },
 
         /**
@@ -102,7 +104,7 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         gridSearchUrl: {
           type: String,
-          computed: '_computeGridSearchUrl(resourceType,resourceId)'
+          computed: '_computeGridSearchUrl(resourceType,resourceId)',
         },
 
         /**
@@ -113,7 +115,7 @@ Copyright © HatioLab Inc. All rights reserved.
         gridSaveUrl: {
           type: String,
           readonly: true,
-          value: 'properties/update_multiple.json'
+          value: 'properties/update_multiple.json',
         },
 
         /**
@@ -123,7 +125,7 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         propDataSet: {
           type: Object,
-          observer: '_propDataSetChanged'
+          observer: '_propDataSetChanged',
         },
 
         /**
@@ -132,7 +134,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {Array}
          */
         extProps: {
-          type: Array
+          type: Array,
         },
 
         /**
@@ -141,7 +143,7 @@ Copyright © HatioLab Inc. All rights reserved.
          * @type {Array}
          */
         queryFields: {
-          type: Array
+          type: Array,
         },
 
         /**
@@ -149,9 +151,9 @@ Copyright © HatioLab Inc. All rights reserved.
          * ******
          * @type {String}
          */
-        searchFields : {
+        searchFields: {
           type: String,
-          value: 'id,name,value,on_type,on_id,prop_type,description'
+          value: 'id,name,value,on_type,on_id,prop_type,description',
         },
 
         /**
@@ -159,12 +161,14 @@ Copyright © HatioLab Inc. All rights reserved.
          * ******
          * @type {Array}
          */
-        sortFields : {
+        sortFields: {
           type: Array,
-          value: [ {
-            field : 'name',
-            ascending : true
-          } ]
+          value: [
+            {
+              field: 'name',
+              ascending: true,
+            },
+          ],
         },
 
         /**
@@ -174,13 +178,13 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         gridConfig: {
           type: Object,
-          value: function() {
+          value: function () {
             return {
-              displayOptions : {
-                fitStyle : DataLudi.GridFitStyle.EVEN_FILL
-              }
-            }
-          }
+              displayOptions: {
+                fitStyle: DataLudi.GridFitStyle.EVEN_FILL,
+              },
+            };
+          },
         },
 
         /**
@@ -191,21 +195,29 @@ Copyright © HatioLab Inc. All rights reserved.
         gridModel: {
           type: Array,
           readonly: true,
-          value: [ {
-            fieldName : 'id'
-          }, {
-            fieldName : 'on_type'
-          }, {
-            fieldName : 'on_id'
-          }, {
-            fieldName : 'prop_type'
-          }, {
-            fieldName : 'name'
-          }, {
-            fieldName : 'description'
-          }, {
-            fieldName : 'value'
-          } ]
+          value: [
+            {
+              fieldName: 'id',
+            },
+            {
+              fieldName: 'on_type',
+            },
+            {
+              fieldName: 'on_id',
+            },
+            {
+              fieldName: 'prop_type',
+            },
+            {
+              fieldName: 'name',
+            },
+            {
+              fieldName: 'description',
+            },
+            {
+              fieldName: 'value',
+            },
+          ],
         },
 
         /**
@@ -216,7 +228,7 @@ Copyright © HatioLab Inc. All rights reserved.
         gridColumns: {
           type: Array,
           readonly: true,
-          value: []
+          value: [],
         },
 
         /**
@@ -226,66 +238,86 @@ Copyright © HatioLab Inc. All rights reserved.
          */
         buttons: {
           type: Array,
-          value: [ {
-            id: 'add-btn',
-            text: 'add',
-            icon: 'icons:add'
-          }, {
-            id: 'save-btn',
-            text: 'save',
-            icon: 'icons:save'
-          }, {
-            id: 'delete-btn',
-            text: 'delete',
-            icon: 'icons:delete'
-          }, {
-            id: 'refresh-btn',
-            text: 'refresh',
-            icon: 'icons:refresh'
-          } ]
-        }
+          value: [
+            {
+              id: 'add-btn',
+              text: 'add',
+              icon: 'icons:add',
+            },
+            {
+              id: 'save-btn',
+              text: 'save',
+              icon: 'icons:save',
+            },
+            {
+              id: 'delete-btn',
+              text: 'delete',
+              icon: 'icons:delete',
+            },
+            {
+              id: 'refresh-btn',
+              text: 'refresh',
+              icon: 'icons:refresh',
+            },
+          ],
+        },
       },
 
       listeners: {
-        'grid.things-grid-handle-addrow' : 'addRow',
-        'grid.refresh-btn-tap' : 'loadData',
-        'grid.things-grid-save-success' : 'loadData'
+        'grid.things-grid-handle-addrow': 'addRow',
+        'grid.refresh-btn-tap': 'loadData',
+        'grid.things-grid-save-success': 'loadData',
       },
 
       /**
        * Life Cycle - Attached
        * *******
        */
-      attached: function() {
+      attached: function () {
         var propTypeWidth = this.usePropType ? 150 : 0;
 
-        this.gridColumns = [ {
-          fieldName: 'id', width: 0
-        }, {
-          fieldName: 'on_type', width: 0
-        }, {
-          fieldName: 'on_id', width: 0
-        }, {
-          fieldName: 'prop_type', width: propTypeWidth,
-          header: {
-            text: Things.DataGlobal.t('label.type')
-          }
-        }, {
-          fieldName: 'name', width: 250,
-          header: {
-            text: Things.DataGlobal.t('label.name')
-          }
-        }, {
-          fieldName: 'description', width: 250,
-          header: {
-            text: Things.DataGlobal.t('label.description')
-          }
-        }, {
-          fieldName: 'value', width: 350,
-          header: {
-            text: Things.DataGlobal.t('label.value')
-          }
-        } ];
+        this.gridColumns = [
+          {
+            fieldName: 'id',
+            width: 0,
+          },
+          {
+            fieldName: 'on_type',
+            width: 0,
+          },
+          {
+            fieldName: 'on_id',
+            width: 0,
+          },
+          {
+            fieldName: 'prop_type',
+            width: propTypeWidth,
+            header: {
+              text: Things.DataGlobal.t('label.type'),
+            },
+          },
+          {
+            fieldName: 'name',
+            width: 250,
+            header: {
+              text: Things.DataGlobal.t('label.name'),
+            },
+          },
+          {
+            fieldName: 'description',
+            width: 250,
+            header: {
+              text: Things.DataGlobal.t('label.description'),
+            },
+          },
+          {
+            fieldName: 'value',
+            width: 350,
+            header: {
+              text: Things.DataGlobal.t('label.value'),
+            },
+          },
+        ];
       },
 
       /**
@@ -293,8 +325,8 @@ Copyright © HatioLab Inc. All rights reserved.
        *
        * @param {Boolean} usePropType
        */
-      _usePropTypeChanged: function(usePropType) {
-        if(this.gridColumns) {
+      _usePropTypeChanged: function (usePropType) {
+        if (this.gridColumns) {
           this.gridColumns[3].width = 150;
         }
       },
@@ -305,12 +337,19 @@ Copyright © HatioLab Inc. All rights reserved.
        * @param {String} onType
        * @param {String} onId
        */
-      _computeGridSearchUrl: function(onType, onId) {
-        this.queryFields = [{
-          name: 'on_type', operator: 'eq', value: onType
-        }, {
-          name: 'on_id', operator: 'eq', value: '' + onId
-        }];
+      _computeGridSearchUrl: function (onType, onId) {
+        this.queryFields = [
+          {
+            name: 'on_type',
+            operator: 'eq',
+            value: onType,
+          },
+          {
+            name: 'on_id',
+            operator: 'eq',
+            value: '' + onId,
+          },
+        ];
 
         return 'properties';
       },
@@ -320,7 +359,7 @@ Copyright © HatioLab Inc. All rights reserved.
        *
        * @param {Object} propDataSet
        */
-      _propDataSetChanged: function(propDataSet) {
+      _propDataSetChanged: function (propDataSet) {
         this.extProps = propDataSet && propDataSet.items ? propDataSet.items : [];
       },
 
@@ -329,7 +368,7 @@ Copyright © HatioLab Inc. All rights reserved.
        ********
        * @param {Object} e
        */
-      addRow: function(e) {
+      addRow: function (e) {
         event.preventDefault();
         this.$.grid.dataSet.insertRow(0, {
           id: null,
@@ -338,7 +377,7 @@ Copyright © HatioLab Inc. All rights reserved.
           prop_type: this.propType,
           name: '',
           description: '',
-          value: ''
+          value: '',
         });
       },
 
@@ -346,9 +385,9 @@ Copyright © HatioLab Inc. All rights reserved.
        * 확장 속성 데이터 조회
        * *******
        */
-      loadData: function() {
+      loadData: function () {
         this.$['resource-search'].generateRequest();
-      }
+      },
     });
   </script>
 </dom-module>
