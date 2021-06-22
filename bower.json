@@ -1,6 +1,6 @@
 {
   "name": "things-extension",
-  "version": "v2.2.1",
+  "version": "v2.2.2",
   "authors": [
     "Shenzhen Weixun"
   ],
@@ -17,9 +17,9 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
-    "things-ajax": "ThingsElements/things-ajax",
-    "things-resource-selector": "ThingsElements/things-resource-selector",
-    "things-grid": "ThingsElements/things-grid"
+    "things-ajax": "WeiXunElements/things-ajax",
+    "things-resource-selector": "WeiXunElements/things-resource-selector",
+    "things-grid": "WeiXunElements/things-grid"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
